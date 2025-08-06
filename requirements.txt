@@ -1,0 +1,20 @@
+# Web Framework
+Flask==2.3.3
+python-dotenv==1.0.0
+
+# Production WSGI Server
+gunicorn==21.2.0
+
+# Testing Framework
+pytest==7.4.2
+pytest-flask==1.2.0
+pytest-cov==4.1.0
+
+# System monitoring
+psutil==5.9.5
+
+# Security (for production)
+flask-talisman==1.1.0
+
+# Development tools
+flask-cors==4.0.0
