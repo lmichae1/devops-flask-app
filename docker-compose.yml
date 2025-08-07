@@ -1,0 +1,46 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: devops-flask-app:compose
+    container_name: flask-web-app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - ENVIRONMENT=docker-compose
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Mount source code for development (comment out for production)
+      - ./app:/app/app:ro
+    networks:
+      - flask-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Future database service (ready for expansion)
+  # db:
+  #   image: postgres:13-alpine
+  #   container_name: flask-db
+  #   environment:
+  #     POSTGRES_USER: flaskuser
+  #     POSTGRES_PASSWORD: flaskpass
+  #     POSTGRES_DB: flaskapp
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - flask-network
+  #   restart: unless-stopped
+
+networks:
+  flask-network:
+    driver: bridge
+
+# volumes:
+#   postgres_data:

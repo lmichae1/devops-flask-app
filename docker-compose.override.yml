@@ -1,0 +1,18 @@
+services:
+  web:
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=True
+      - ENVIRONMENT=docker-compose-dev
+    volumes:
+      # Mount source code for hot reload during development
+      - ./app:/app/app:ro
+      - ./tests:/app/tests:ro
+    command: python app/main.py
+    # Override healthcheck for development (faster checks)
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 2
+      start_period: 5s
